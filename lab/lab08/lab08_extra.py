@@ -3,6 +3,8 @@
 from lab08 import *
 
 # OOP
+
+
 class Keyboard:
     """A Keyboard takes in an arbitrary amount of buttons, and has a
     dictionary of positions as keys, and values as Buttons.
@@ -45,6 +47,7 @@ class Keyboard:
 
         return output
 
+
 class Button:
     def __init__(self, pos, key):
         self.pos = pos
@@ -52,6 +55,8 @@ class Button:
         self.pressed = 0
 
 # Nonlocal
+
+
 def make_advanced_counter_maker():
     """Makes a function that makes counters that understands the
     messages "count", "global-count", "reset", and "global-reset".
@@ -82,8 +87,10 @@ def make_advanced_counter_maker():
     1
     """
     glob = 0
+
     def maker():
         loc = 0
+
         def counter(action):
             def count():
                 nonlocal loc
@@ -101,7 +108,7 @@ def make_advanced_counter_maker():
 
             def global_reset():
                 nonlocal glob
-                glob = 0            
+                glob = 0
 
             actions = {
                 'count': count,
@@ -111,11 +118,13 @@ def make_advanced_counter_maker():
             }
 
             return actions[action]()
-            
+
         return counter
     return maker
 
 # Lists
+
+
 def trade(first, second):
     """Exchange the smallest prefixes of first and second that have equal sum.
 
@@ -155,13 +164,15 @@ def trade(first, second):
                 break
             n += 1
 
-    if deal: # change this line!
+    if deal:  # change this line!
         first[:m], second[:n] = second[:n], first[:m]
         return 'Deal!'
     else:
         return 'No deal!'
 
 # Recursive objects
+
+
 def make_to_string(front, mid, back, empty_repr):
     """ Returns a function that turns linked lists to strings.
 
@@ -184,6 +195,7 @@ def make_to_string(front, mid, back, empty_repr):
             return front + str(link.first) + mid + convert(link.rest) + back
 
     return convert
+
 
 def tree_map(fn, t):
     """Maps the function fn over the entries of t and returns the
@@ -211,6 +223,7 @@ def tree_map(fn, t):
         return Tree(fn(t.label))
     else:
         return Tree(fn(t.label), [tree_map(fn, branch) for branch in t.branches])
+
 
 def long_paths(tree, n):
     """Return a list of all paths in tree with length at least n.
@@ -241,7 +254,31 @@ def long_paths(tree, n):
     >>> long_paths(whole, 4)
     [Link(0, Link(11, Link(12, Link(13, Link(14)))))]
     """
-    "*** YOUR CODE HERE ***"
+    paths = []
+
+    def to_link(lst):
+        if not lst:
+            return Link.empty
+        else:
+            return Link(lst[0], to_link(lst[1:]))
+
+    def travel(tree, path=[]):
+        nonlocal paths
+
+        if tree.is_leaf():
+            path.append(tree.label)
+            if len(path) > n:
+                paths.append(to_link(path))
+
+        temp = list(path)
+        temp.append(tree.label)
+
+        for branch in tree.branches:
+            travel(branch, list(temp))
+
+    travel(tree)
+    return paths
+
 
 # Orders of Growth
 def zap(n):
@@ -252,6 +289,7 @@ def zap(n):
             print(i / 6)
             i *= 3
     return count
+
 
 def boom(n):
     sum = 0
@@ -265,6 +303,8 @@ def boom(n):
     return sum
 
 # Tree class
+
+
 class Tree:
     def __init__(self, label, branches=[]):
         for c in branches:
@@ -284,8 +324,8 @@ class Tree:
 
     def __eq__(self, other):
         return type(other) is type(self) and self.label == other.label \
-               and self.branches == other.branches
-    
+            and self.branches == other.branches
+
     def __str__(self):
         def print_tree(t, indent=0):
             tree_str = '  ' * indent + str(t.label) + "\n"
