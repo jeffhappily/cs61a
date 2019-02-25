@@ -10,17 +10,29 @@
 )
 
 (define (sign x)
-  'YOUR-CODE-HERE
+  (cond
+    ((< x 0) -1)
+    ((> x 0) 1)
+    (else 0))
 )
 
 (define (square x) (* x x))
 
 (define (pow b n)
-  'YOUR-CODE-HERE
+  (cond 
+    ((= n 0) 1)
+    ((even? n) (square (pow b (/ n 2))))
+    (else (* b (pow b (- n 1)))))
 )
 
 (define (ordered? s)
-  'YOUR-CODE-HERE
+  (define (compare prev n)
+    (cond
+      ((null? (cdr n)) #t)
+      ((> prev n) #f)
+      (else (compare n (cadr n)))))
+
+  (compare (car s) (cadr s))
 )
 
 (define (nodots s)
