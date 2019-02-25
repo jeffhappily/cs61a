@@ -28,15 +28,19 @@
 (define (ordered? s)
   (define (compare prev n)
     (cond
-      ((null? (cdr n)) #t)
-      ((> prev n) #f)
-      (else (compare n (cadr n)))))
-
-  (compare (car s) (cadr s))
+      ((null? n) #t)
+      ((> prev (car n)) #f)
+      (else (compare (car n) (cdr n)))))
+    
+  (if (null? (cdr s)) #t (compare (car s) (cdr s)))
 )
 
 (define (nodots s)
-  'YOUR-CODE-HERE
+  (cond 
+    ((or (null? s) (not (pair? s))) s)
+    ; ((not (pair? s)) (cons s '()))
+    ((pair? (cdr s)) (cons (nodots (car s)) (nodots (cdr s))))
+    (else (cons (nodots (car s)) (cons (cdr s) '()))))
 )
 
 ; Sets as sorted lists
