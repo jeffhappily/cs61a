@@ -55,7 +55,7 @@
     (cond ((empty? s) #f)
           ((> (car s) v) #f)
           ((= (car s) v) #t)
-          (else (contains (cdr s) v)) ; replace this line
+          (else (contains? (cdr s) v)) ; replace this line
           ))
 
 ; Equivalent Python code, for your reference:
@@ -75,13 +75,16 @@
 
 (define (add s v)
     (cond ((empty? s) (list v))
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+          ((contains? s v) s)
+          ((< v (car s)) (cons v s))
+          (else (cons (car s) (add (cdr s) v))) ; replace this line
           ))
 
 (define (intersect s t)
     (cond ((or (empty? s) (empty? t)) nil)
-          'YOUR-CODE-HERE
+          ((= (car s) (car t)) (cons (car s) (intersect (cdr s) (cdr t))))
+          ((< (car s) (car t)) (intersect (cdr s) t))
+          ((> (car s) (car t)) (intersect s (cdr t)))
           (else nil) ; replace this line
           ))
 
@@ -102,6 +105,8 @@
 (define (union s t)
     (cond ((empty? s) t)
           ((empty? t) s)
-          'YOUR-CODE-HERE
+          ((= (car s) (car t)) (cons (car s) (union (cdr s) (cdr t))))
+          ((< (car s) (car t)) (cons (car s) (union (cdr s) t)))
+          ((> (car s) (car t)) (cons (car t) (union s (cdr t))))
           (else nil) ; replace this line
           ))
