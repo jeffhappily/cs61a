@@ -19,28 +19,32 @@
 (define (square x) (* x x))
 
 (define (pow b n)
-  (cond 
-    ((= n 0) 1)
-    ((even? n) (square (pow b (/ n 2))))
-    (else (* b (pow b (- n 1)))))
+  (cond ((= n 0) 1)
+        ((even? n) (square (pow b (/ n 2))))
+        (else (* b (pow b (- n 1)))))
 )
 
 (define (ordered? s)
   (define (compare prev n)
-    (cond
-      ((null? n) #t)
-      ((> prev (car n)) #f)
-      (else (compare (car n) (cdr n)))))
+    (cond ((null? n) #t)
+          ((> prev (car n)) #f)
+          (else (compare (car n) (cdr n)))))
     
   (if (null? (cdr s)) #t (compare (car s) (cdr s)))
 )
 
 (define (nodots s)
-  (cond 
-    ((or (null? s) (not (pair? s))) s)
-    ; ((not (pair? s)) (cons s '()))
-    ((pair? (cdr s)) (cons (nodots (car s)) (nodots (cdr s))))
-    (else (cons (nodots (car s)) (cons (cdr s) '()))))
+  (cond ((or 
+          (not (pair? s)) 
+          (null? (cdr s))) s)
+        ((pair? (cdr s)) 
+          (cons 
+            (nodots (car s)) 
+            (nodots (cdr s))))
+        (else 
+          (cons 
+            (nodots (car s)) 
+            (cons (cdr s) '()))))
 )
 
 ; Sets as sorted lists
@@ -49,8 +53,9 @@
 
 (define (contains? s v)
     (cond ((empty? s) #f)
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+          ((> (car s) v) #f)
+          ((= (car s) v) #t)
+          (else (contains (cdr s) v)) ; replace this line
           ))
 
 ; Equivalent Python code, for your reference:
