@@ -45,6 +45,7 @@
         ((=number? m1 1) m2)
         ((=number? m2 1) m1)
         ((and (number? m1) (number? m2)) (* m1 m2))
+        ((and (exp? m1) (exp? m2) (equal? (base m1) (base m2))) (make-exp (base m1) (+ (exponent m1) (exponent m2))))
         (else (list '* m1 m2))))
 (define (product? x)
   (and (list? x) (eq? (car x) '*)))
@@ -73,12 +74,13 @@
 )
 
 ; Exponentiations are represented as lists that start with ^.
-(define (make-exp base exponent)
+(define (make-exp bse power)
   (cond
-    ((= exponent 0) 1)
-    ((= exponent 1) base)
-    ((number? base) (expt base exponent))
-    (else (list '^ base exponent)))
+    ((= power 0) 1)
+    ((= power 1) bse)
+    ((number? bse) (expt bse power))
+    ((exp? bse) (make-exp (base bse) (* (exponent bse) power)))
+    (else (list '^ bse power)))
 )
 
 (define (base exp)
