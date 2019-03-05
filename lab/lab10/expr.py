@@ -188,7 +188,10 @@ class CallExpr(Expr):
         >>> read('add(mul(3, 4), b)').eval(new_env)
         Number(14)
         """
-        "*** YOUR CODE HERE ***"
+        f = self.operator.eval(env)
+        opr = list(map(lambda o: o.eval(env), self.operands))
+
+        return f.apply(opr)
 
     def __str__(self):
         function = str(self.operator)
@@ -303,7 +306,13 @@ class LambdaFunction(Value):
         if len(self.parameters) != len(arguments):
             raise TypeError("Cannot match parameters {} to arguments {}".format(
                 comma_separated(self.parameters), comma_separated(arguments)))
-        "*** YOUR CODE HERE ***"
+        
+        child_env = self.parent.copy()
+        for i, arg in enumerate(arguments):
+            child_env[self.parameters[i]] = arg
+
+        return self.body.eval(child_env)
+
 
     def __str__(self):
         definition = LambdaExpr(self.parameters, self.body)
