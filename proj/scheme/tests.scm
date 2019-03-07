@@ -10,7 +10,15 @@
 ;;; *** Add your own tests here! ***
 ;;; ********************************
 ; BEGIN PROBLEM 0
-'replace-this-line
+123
+; expect 123
+
+(* 123 0)
+; expect 0
+
+(/ 123 0)
+; expect 0
+
 ; END PROBLEM 0
 
 ;;; These are examples from several sections of "The Structure
