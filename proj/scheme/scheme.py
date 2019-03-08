@@ -76,14 +76,16 @@ class Frame:
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
+        self.bindings[symbol] = value 
         # END PROBLEM 3
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 3
+        if symbol in self.bindings:
+            return self.bindings[symbol]
+        elif self.parent:
+            return self.parent.lookup(symbol)
         raise SchemeError('unknown identifier: {0}'.format(symbol))
 
     def make_child_frame(self, formals, vals):
@@ -141,7 +143,13 @@ class PrimitiveProcedure(Procedure):
             python_args.append(args.first)
             args = args.second
         # BEGIN PROBLEM 4
-        "*** YOUR CODE HERE ***"
+        if self.use_env:
+            python_args.append(env)
+
+        try:
+            return self.fn(*python_args)
+        except TypeError as e:
+            raise SchemeError("Wrong number of arguments passed to {}".format(self.name))
         # END PROBLEM 4
 
 class LambdaProcedure(Procedure):
