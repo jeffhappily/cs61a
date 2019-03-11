@@ -185,7 +185,7 @@ class LambdaProcedure(Procedure):
         """Make a frame that binds my formal parameters to ARGS, a Scheme list
         of values, for a lexically-scoped call evaluated in environment ENV."""
         # BEGIN PROBLEM 12
-        "*** YOUR CODE HERE ***"
+        return self.env.make_child_frame(self.formals, args)
         # END PROBLEM 12
 
     def __str__(self):
@@ -276,13 +276,33 @@ def do_if_form(expressions, env):
 def do_and_form(expressions, env):
     """Evaluate a (short-circuited) and form."""
     # BEGIN PROBLEM 13
-    "*** YOUR CODE HERE ***"
+    val = True
+
+    while expressions != nil:
+        val = scheme_eval(expressions.first, env)
+        
+        if not scheme_truep(val):
+            return False
+
+        expressions = expressions.second
+
+    return val
     # END PROBLEM 13
 
 def do_or_form(expressions, env):
     """Evaluate a (short-circuited) or form."""
     # BEGIN PROBLEM 13
-    "*** YOUR CODE HERE ***"
+    val = False
+
+    while expressions != nil:
+        value = scheme_eval(expressions.first, env)
+        
+        if scheme_truep(value):
+            return value
+
+        expressions = expressions.second
+
+    return val
     # END PROBLEM 13
 
 def do_cond_form(expressions, env):
@@ -298,7 +318,10 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if scheme_truep(test):
             # BEGIN PROBLEM 14
-            "*** YOUR CODE HERE ***"
+            if clause.second != nil:
+                return eval_all(clause.second, env)
+            else:
+                return test
             # END PROBLEM 14
         expressions = expressions.second
 

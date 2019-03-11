@@ -16,8 +16,8 @@
 (* 123 0)
 ; expect 0
 
-(/ 123 0)
-; expect 0
+(/ 123 1)
+; expect 123
 
 ; END PROBLEM 0
 
@@ -64,6 +64,14 @@
    (+ (- 10 7)
       6))
 ; expect 57
+
+(define (outer x y)
+  (define (inner z x)
+	(+ x (* y 2) (* z 3)))
+  (inner x 10))
+(outer 1 2)
+
+; expect 17
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Move the following (exit) line down the file to run additional tests. ;;;
