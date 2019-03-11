@@ -15,16 +15,29 @@
 ;; Returns a list of two-element lists
 (define (enumerate s)
   ; BEGIN PROBLEM 17
-  'replace-this-line
-  )
+  (define (rec i s)
+    (if (null? s) s
+        (cons (cons i (cons (car s) nil)) (rec (+ i 1) (cdr s)))))
+  (rec 0 s))
   ; END PROBLEM 17
 
 ;; Problem 18
 ;; List all ways to make change for TOTAL with DENOMS
 (define (list-change total denoms)
   ; BEGIN PROBLEM 18
-  'replace-this-line
-  )
+  (cond
+    ((or (null? denoms) (< total 0)) '())
+    ((= total 0) '(()))
+    (else 
+     (append
+       (cons-all (car denoms) (list-change (- total (car denoms)) denoms))
+       (list-change total (cdr denoms))))))
+  
+(define (cons-all first rests)
+  (if (null? rests) rests
+    (cons 
+      (append (list first) (car rests)) 
+      (cons-all first (cdr rests)))))
   ; END PROBLEM 18
 
 ;; Problem 19

@@ -87,7 +87,7 @@ class Frame:
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 3
-        self.bindings[symbol] = value 
+        self.bindings[symbol] = value
         # END PROBLEM 3
 
     def lookup(self, symbol):
@@ -280,7 +280,7 @@ def do_and_form(expressions, env):
 
     while expressions != nil:
         val = scheme_eval(expressions.first, env)
-        
+
         if not scheme_truep(val):
             return False
 
@@ -296,7 +296,7 @@ def do_or_form(expressions, env):
 
     while expressions != nil:
         value = scheme_eval(expressions.first, env)
-        
+
         if scheme_truep(value):
             return value
 
@@ -339,7 +339,18 @@ def make_let_frame(bindings, env):
     if not scheme_listp(bindings):
         raise SchemeError('bad bindings list in let form')
     # BEGIN PROBLEM 15
-    "*** YOUR CODE HERE ***"
+    formals = bindings.map(lambda x: x.first)
+    args = bindings.map(lambda x: scheme_eval(x.second.first, env))
+
+    b = bindings
+    while b != nil:
+        check_form(b.first, 2, 2)
+
+        b = b.second
+
+    check_formals(formals)
+
+    return env.make_child_frame(formals, args)
     # END PROBLEM 15
 
 def do_define_macro(expressions, env):
@@ -427,7 +438,10 @@ class MuProcedure(Procedure):
         self.body = body
 
     # BEGIN PROBLEM 16
-    "*** YOUR CODE HERE ***"
+    def make_call_frame(self, args, env):
+        """Make a frame that binds my formal parameters to ARGS, a Scheme list
+        of values, for a dynamically-scoped call evaluated in environment ENV."""
+        return env.make_child_frame(self.formals, args)
     # END PROBLEM 16
 
     def __str__(self):
@@ -443,7 +457,7 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     check_formals(formals)
     # BEGIN PROBLEM 16
-    "*** YOUR CODE HERE ***"
+    return MuProcedure(formals, expressions.second)
     # END PROBLEM 16
 
 SPECIAL_FORMS['mu'] = do_mu_form
