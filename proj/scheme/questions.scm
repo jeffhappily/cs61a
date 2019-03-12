@@ -1,5 +1,4 @@
-(define (caar x) (car (car x)))
-(define (cadr x) (car (cdr x)))
+(define (caar x) (car (car x))) (define (cadr x) (car (cdr x)))
 (define (cdar x) (cdr (car x)))
 (define (cddr x) (cdr (cdr x)))
 
@@ -76,19 +75,26 @@
                (params (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM 19
-		   expr
+		   (cons form
+			 (cons params (map let-to-lambda body)))
            ; END PROBLEM 19
            ))
         ((let? expr)
          (let ((values (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM 19
-		   (cons (list 'lambda (car (zip values)) (car body)) (cadr (zip values))) 
+		   (let ((args (zip values)))
+			 (cons 
+			   (cons 'lambda 
+				(cons (car args) 
+				(map let-to-lambda body))) 
+			   (map let-to-lambda (cadr args)))) 
            ; END PROBLEM 19
            ))
         (else
          ; BEGIN PROBLEM 19
-		 expr
+		 (map
+		   let-to-lambda expr)
          ; END PROBLEM 19
          )))
 
