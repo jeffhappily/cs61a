@@ -12,13 +12,18 @@
       (cons-all first (cdr rests)))))
 
 (define (zip pairs)
+  (define (iter pairs)
+	(if (null? pairs) '(())
+		(cons-all
+		  (caar pairs)
+		  (iter (cdr pairs)))))
   (cond 
     ((null? pairs) '(() ()))
     ((null? (car pairs)) '())
-    (else (append
-      (cons (caar pairs) (zip (cdr pairs)))
-      (zip (map (lambda (x) (cdr x)) pairs))))))
-
+    (else
+	  (append
+		(iter pairs)
+		(zip (map (lambda (x) (cdr x)) pairs))))))
 ;; Problem 17
 ;; Returns a list of two-element lists
 (define (enumerate s)
