@@ -6,10 +6,18 @@
 ; Some utility functions that you may find useful to implement.
 
 (define (cons-all first rests)
-  'replace-this-line)
+  (if (null? rests) rests
+    (cons 
+      (append (list first) (car rests)) 
+      (cons-all first (cdr rests)))))
 
 (define (zip pairs)
-  'replace-this-line)
+  (cond 
+    ((null? pairs) '(() ()))
+    ((null? (car pairs)) '())
+    (else (append
+      (cons (caar pairs) (zip (cdr pairs)))
+      (zip (map (lambda (x) (cdr x)) pairs))))))
 
 ;; Problem 17
 ;; Returns a list of two-element lists
@@ -33,11 +41,6 @@
        (cons-all (car denoms) (list-change (- total (car denoms)) denoms))
        (list-change total (cdr denoms))))))
   
-(define (cons-all first rests)
-  (if (null? rests) rests
-    (cons 
-      (append (list first) (car rests)) 
-      (cons-all first (cdr rests)))))
   ; END PROBLEM 18
 
 ;; Problem 19
