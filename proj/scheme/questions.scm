@@ -62,12 +62,12 @@
 (define (let-to-lambda expr)
   (cond ((atom? expr)
          ; BEGIN PROBLEM 19
-         'replace-this-line
+		 expr
          ; END PROBLEM 19
          )
         ((quoted? expr)
          ; BEGIN PROBLEM 19
-         'replace-this-line
+		 expr
          ; END PROBLEM 19
          )
         ((or (lambda? expr)
@@ -76,18 +76,21 @@
                (params (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM 19
-           'replace-this-line
+		   expr
            ; END PROBLEM 19
            ))
         ((let? expr)
          (let ((values (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM 19
-           'replace-this-line
+		   (cons (list 'lambda (car (zip values)) (car body)) (cadr (zip values))) 
            ; END PROBLEM 19
            ))
         (else
          ; BEGIN PROBLEM 19
-         'replace-this-line
+		 expr
          ; END PROBLEM 19
          )))
+
+(define (test expr)
+  (zip expr))
