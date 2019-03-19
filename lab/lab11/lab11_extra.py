@@ -75,8 +75,22 @@ def merge(s0, s1):
     """
     i0, i1 = iter(s0), iter(s1)
     e0, e1 = next(i0, None), next(i1, None)
-    "*** YOUR CODE HERE ***"
 
+    if e0 is None:
+        yield from i1
+    elif e1 is None:
+        yield from i0
+    else:
+        if e0 == e1:
+            yield e0
+            yield from merge(i0, i1)
+        elif e0 > e1:
+            yield e1
+            yield from merge(s0, i1)
+        else:
+            yield e0
+            yield from merge(i0, s1)
+        
 # Q8
 def remainders_generator(m):
     """
