@@ -77,8 +77,10 @@ def merge(s0, s1):
     e0, e1 = next(i0, None), next(i1, None)
 
     if e0 is None:
+        yield e1
         yield from i1
     elif e1 is None:
+        yield e0
         yield from i0
     else:
         if e0 == e1:
@@ -86,10 +88,10 @@ def merge(s0, s1):
             yield from merge(i0, i1)
         elif e0 > e1:
             yield e1
-            yield from merge(s0, i1)
+            yield from merge(merge([e0], i0), i1)
         else:
             yield e0
-            yield from merge(i0, s1)
+            yield from merge(i0, merge([e1], i1))
         
 # Q8
 def remainders_generator(m):
@@ -114,7 +116,12 @@ def remainders_generator(m):
     7
     11
     """
-    "*** YOUR CODE HERE ***"
+    def iterator(start, k):
+       yield start 
+       yield from iterator(start+k, k)
+
+    for i in range(m):
+        yield iterator(i, m)
 
 # Q9
 def zip_generator(*iterables):
@@ -129,4 +136,18 @@ def zip_generator(*iterables):
     [1, 4, 7]
     [2, 5, 8]
     """
-    "*** YOUR CODE HERE ***"
+    iterables = list(map(lambda x: iter(x), iterables))
+    
+    while True:
+        arr = []
+        for itr in iterables:
+            try:
+                n = next(itr)
+                arr.append(n)
+            except StopIteration:
+                return
+
+        yield arr
+
+
+
