@@ -1,8 +1,8 @@
 (define (find s predicate)
   (cond
-	((null? predicate) #f)
-	((predicate (car s)) #t)
-	(else (find s (cdr-stream s))
+	((null? s) #f)
+	((predicate (car s)) (car s))
+	(else (find (cdr-stream s) predicate)))
 )
 
 (define (scale-stream s k)
