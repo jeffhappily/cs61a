@@ -29,8 +29,8 @@ CREATE TABLE sp18alldogs AS
 
 
 CREATE TABLE obedienceimages AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT seven, denero, COUNT(*) FROM students WHERE seven = '7' GROUP BY denero;
 
 -- Q8
 CREATE TABLE smallest_int_count AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT smallest, COUNT(*) FROM students GROUP BY smallest;
