@@ -47,7 +47,27 @@ CREATE TABLE sentences AS
 CREATE TABLE stacks_helper(dogs, stack_height, last_height);
 
 -- Add your INSERT INTOs here
+INSERT INTO stacks_helper SELECT name, height, height FROM dogs;
 
+INSERT INTO stacks_helper 
+
+SELECT 
+	a.dogs || ", " || b.dogs || ", " || c.dogs || ", " || d.dogs, 
+	a.stack_height + b.stack_height + c.stack_height + d.stack_height, 
+	d.stack_height 
+FROM 
+	stacks_helper as a, 
+	stacks_helper as b, 
+	stacks_helper as c, 
+	stacks_helper as d 
+WHERE 
+	a.dogs <> b.dogs AND 
+	c.dogs <> b.dogs AND 
+	c.dogs <> d.dogs AND 
+	a.dogs <> d.dogs AND 
+	b.stack_height > a.stack_height AND 
+	c.stack_height > b.stack_height AND 
+	d.stack_height > c.stack_height;
 
 CREATE TABLE stacks AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT dogs, stack_height FROM stacks_helper WHERE stack_height >= 170 ORDER BY stack_height;
