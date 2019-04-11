@@ -22,17 +22,19 @@ def permutations(lst):
     
     ls = []
     for i in lst:
-        print("ls: {}".format(ls))
         if ls == []:
             ls = [[i]]
             continue
         
         tmp = []
         for j in ls:
-            tmp.append([i, *j])
+            for k, _ in enumerate(j):
+                tmp.append(j[0:k] + [i] + j[k:])
+
             tmp.append([*j, i])
 
         ls = tmp
 
-    return iter(ls)
+    yield from iter(ls)
             
+
