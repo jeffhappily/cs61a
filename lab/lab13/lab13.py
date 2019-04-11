@@ -19,4 +19,20 @@ def permutations(lst):
     if not lst:
         yield []
         return
-    "*** YOUR CODE HERE ***"
+    
+    ls = []
+    for i in lst:
+        print("ls: {}".format(ls))
+        if ls == []:
+            ls = [[i]]
+            continue
+        
+        tmp = []
+        for j in ls:
+            tmp.append([i, *j])
+            tmp.append([*j, i])
+
+        ls = tmp
+
+    return iter(ls)
+            
