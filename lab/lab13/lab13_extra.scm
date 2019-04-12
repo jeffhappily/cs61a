@@ -22,7 +22,13 @@
 
 ; Q5
 (define (insert n s)
-  'YOUR-CODE-HERE
+  (define (rec n lst head)
+    (cond
+      ((null? lst) (append head (list n)))
+      ((> (car lst) n) (append head (cons n lst)))
+      (else (rec n (cdr lst) (append head (list (car lst)))))))
+
+  (rec n s '())
 )
 
 ; Q6
