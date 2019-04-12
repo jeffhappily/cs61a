@@ -1,6 +1,12 @@
 ; Q4
 (define (rle s)
-  'YOUR-CODE-HERE
+  (define (rec lst a n)
+    (cond
+      ((null? lst) (cons-stream (list a n) '()))
+      ((= (car lst) a) (rec (cdr-stream lst) a (+ n 1)))
+      (else (cons-stream (list a n) (rec (cdr-stream lst) (car lst) 1)))))
+
+  (if (null? s) '() (rec (cdr-stream s) (car s) 1))
 )
 
 ; Q4 testing functions
