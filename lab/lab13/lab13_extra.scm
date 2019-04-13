@@ -55,16 +55,27 @@
 ; Implementing and using these helper procedures is optional. You are allowed
 ; to delete them.
 (define (unique s)
-  'YOUR-CODE-HERE
-  nil
+  (if (null? s)
+      '()
+      (cons (car s) (unique (filter (lambda (x) (not (= x (car s)))) (cdr s)))))
 )
 
 (define (count name s)
-  'YOUR-CODE-HERE
-  nil
-)
+  (cond
+    ((null? s) 0)
+    ((eq? (car s) name) (+ 1 (count name (cdr s))))
+    (else (count name (cdr s))))
+) 
 
 (define (tally names)
-  'YOUR-CODE-HERE
-  nil
+  (if (null? names)
+      '()
+      (cons 
+        (cons 
+          (car names) 
+          (count (car names) names)) 
+        (tally 
+          (filter 
+            (lambda (x) (not (eq? (car names) x)))
+            (cdr names)))))
 )
