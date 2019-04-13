@@ -39,4 +39,5 @@ def make_generators_generator(g):
     4
     5
     """
-    "*** YOUR CODE HERE ***"
+    for val in g():
+        yield iter(range(1, val+1))
